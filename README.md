@@ -3,13 +3,16 @@
 
 ## 대회 개요
 - 목적: 한국가스공사의 시간단위 공급량 데이터를 활용하여 90일 한도 일간 공급량을 예측하는 인공지능 모델 개발
-- 주최/주관: 한국가스공사
-- 참가 대상: 스타트업 및 예비창업가
+- 주최: 한국가스공사
+- 참가대상: 스타트업 및 예비창업가
+- 평가지표: NMAE(Normalized Mean Absolute Error)
 
 
 ## 데이터
+- 변수: 연월일, 시간, 공급사, 공급량
+- 학습: 2013년 1월 1일 ~ 2018년 12월 31일
+- 예측: 2019년 1월 1일 ~ 2019년 3월 31일
 - [데이터 소스](https://dacon.io/competitions/official/235830/data)
-MoT is a transformer-based model for predicting molecular properties from its 3D molecular structure. It was first introduced to calculate the excitation energy gap between S1 and T1 states by the molecular structure.
 
 ## Requirements
 Before running this project, you need to install the below libraries:
