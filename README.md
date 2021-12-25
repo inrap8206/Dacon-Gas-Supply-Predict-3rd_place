@@ -6,7 +6,7 @@
 - 주최: 한국가스공사
 - 참가대상: 스타트업 및 예비창업가
 - 평가지표: NMAE(Normalized Mean Absolute Error)
-- [대회 링크](https://dacon.io/competitions/official/235830/overview/description)
+- [대회 홈페이지](https://dacon.io/competitions/official/235830/overview/description)
 
 
 ## 데이터
