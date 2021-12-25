@@ -15,10 +15,10 @@
 - 예측: 2019년 1월 1일 ~ 2019년 3월 31일
 - [데이터 소스](https://dacon.io/competitions/official/235830/data)
 
-## Requirements
-Before running this project, you need to install the below libraries:
-* numpy
-* pandas
+## 외부데이터 검토
+다양한 외부데이터 활용여부 검토:
+* 도시가스 월별 상대가격 지수 데이터(출처: 한국가스공사)
+* p
 * torch==1.9.0+cu111
 * tqdm
 * wandb
