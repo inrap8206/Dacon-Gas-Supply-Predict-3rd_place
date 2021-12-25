@@ -2,7 +2,10 @@
 한국가스공사 | 스타트업 | 정형데이터 | 수요예측
 
 ## 대회 개요
-This repository is an official implementation of a model which won first place in the [Samsung AI Challenge for Scientific Discovery](https://dacon.io/competitions/official/235789/overview/description) competition and was introduced at [SAIF 2021](https://www.sait.samsung.co.kr/saithome/event/saif2021.do). The result of the challenge was announced at [this video](https://www.youtube.com/watch?v=YRbFDThaAmo#t=2h57m17s).
+- 목적: 한국가스공사의 시간단위 공급량 내부데이터와 기상정보 및 가스외 발전량 등 외부데이터를 포함한 데이터셋을 구축하여 90일 한도 일간 공급량을 예측하는 인공지능 모델 개발
+- 주최/주관: 한국가스공사
+- 참가 대상: 스타트업 및 예비창업가
+
 
 ## Introduction
 MoT is a transformer-based model for predicting molecular properties from its 3D molecular structure. It was first introduced to calculate the excitation energy gap between S1 and T1 states by the molecular structure.
