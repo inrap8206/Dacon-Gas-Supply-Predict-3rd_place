@@ -1,5 +1,5 @@
 # 가스공급량 수요예측 모델개발
-**한국가스공사 | 스타트업 | 정형데이터 | 수요예측**
+한국가스공사 | 스타트업 | 정형데이터 | 수요예측
 
 ## Samsung AI Challenge for Scientific Discovery
 This repository is an official implementation of a model which won first place in the [Samsung AI Challenge for Scientific Discovery](https://dacon.io/competitions/official/235789/overview/description) competition and was introduced at [SAIF 2021](https://www.sait.samsung.co.kr/saithome/event/saif2021.do). The result of the challenge was announced at [this video](https://www.youtube.com/watch?v=YRbFDThaAmo#t=2h57m17s).
