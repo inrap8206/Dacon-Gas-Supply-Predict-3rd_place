@@ -18,16 +18,10 @@
 ## 외부데이터 검토
 다양한 외부데이터 활용여부 검토:
 * 도시가스 월별 상대가격 지수 데이터(출처: 한국가스공사)
-* p
-* torch==1.9.0+cu111
-* tqdm
-* wandb
-* dataclasses
-* requests
-* omegaconf
-* pytorch_lightning==1.4.8
-* rdkit-pypi
-* scikit_learn
+* 기상정보 데이터 (출처: 기상자료개방포털)
+* 지역별 특수일 효과 (출처: 한국가스공사
+* 공휴일 데이터 (출처: 한국천문연구원 특일정보 API)
+* ETC.
 
 This project supports [NVIDIA Apex](https://github.com/NVIDIA/apex). It will be automatically detected and used to accelerate training when installed. apex reduces the training time up to **50%**.
 
