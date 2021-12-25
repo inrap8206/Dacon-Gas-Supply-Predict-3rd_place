@@ -1,4 +1,4 @@
-# [가스공급량 수요예측 모델개발](https://dacon.io/competitions/official/235830/overview/description)
+# 가스공급량 수요예측 모델개발
 한국가스공사 | 스타트업 | 정형데이터 | 수요예측
 
 ## 대회 개요
@@ -6,6 +6,7 @@
 - 주최: 한국가스공사
 - 참가대상: 스타트업 및 예비창업가
 - 평가지표: NMAE(Normalized Mean Absolute Error)
+- [홈페이지 링크](https://dacon.io/competitions/official/235830/overview/description)
 
 
 ## 데이터
