@@ -7,7 +7,8 @@
 - 참가 대상: 스타트업 및 예비창업가
 
 
-## Introduction
+## 데이터
+- [데이터 소스](https://dacon.io/competitions/official/235830/data)
 MoT is a transformer-based model for predicting molecular properties from its 3D molecular structure. It was first introduced to calculate the excitation energy gap between S1 and T1 states by the molecular structure.
 
 ## Requirements
