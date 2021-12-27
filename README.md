@@ -102,7 +102,7 @@ for df in [train, test]:
 사용하는 변수를 최소화하여 과적합 가능성이 낮은 일반화된(Generalized) 예측 모델을 구현
 
 ```yaml
-vars = ['hour',	'type', 'month',	'weekday', 'little_gas', '26~31','2~7']
+vars = ['hour',	'type', 'month', 'weekday', 'little_gas', '26~31','2~7']
 X = train[vars]
 X_test = test[vars]
 ```
