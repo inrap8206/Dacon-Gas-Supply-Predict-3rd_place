@@ -37,6 +37,14 @@
 가스 공급량 이상치는 일시적 과대수요, 설비정비, Data 작성 오류 등 다양한 원인에 기인할 수 있음. IQR 등 일반적인 이상치 처리 방법 적용시 Domain 정보가 과도하게 손실될 우려가 있음. EDA 결과를 바탕으로 모델 학습에 방해가 되는 구간에 한하여 최소한의 이상치 처리를 실시
 
 
+```yaml
+
+model:
+  pretrained_model_path: mot-base-pubchem.pth
+  config: ...
+```
+
+
 
 ## Results on Competition Dataset
 | Model | PubChem | PubChemQC | Competition LB (Public/Private) |
