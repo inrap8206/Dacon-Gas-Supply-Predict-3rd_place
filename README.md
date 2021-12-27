@@ -39,9 +39,13 @@
 
 ```yaml
 
-model:
-  pretrained_model_path: mot-base-pubchem.pth
-  config: ...
+# 2016년 H 공급사 이상치는 +1, -1 일 동시간의 공급량 평균으로 대체
+for row in train[(train['type'] == 6) & (train['year'] == 2016) & (train['month'] == 1) & (train['day'] == 24) & (train['hour'] < 4)&(train['amount'] > 800)].index:
+  train.loc[row, 'amount'] = (train.loc[(row-24), 'amount'] + train.loc[(row+24), 'amount'])/2
+
+# 공급량 6644이상인 것은 이상치로 판단하고 +1, -1 시간의 공급량 평균으로 대체
+for row in train[train['amount'] > 6644].index:
+  train.loc[row, 'amount'] = (train.loc[(row-1), 'amount'] + train.loc[(row+1), 'amount'])/2
 ```
 
 
