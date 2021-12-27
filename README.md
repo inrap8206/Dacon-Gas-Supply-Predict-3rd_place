@@ -48,6 +48,18 @@ for row in train[train['amount'] > 6644].index:
   train.loc[row, 'amount'] = (train.loc[(row-1), 'amount'] + train.loc[(row+1), 'amount'])/2
 ```
 
+### 예측 취약구간 보완
+학습데이터의 공급량 예측값과 실제 공급량의 차이를 비교한 결과 특정구간에서 예측력이 떨어짐을 확인. 평가지표(NMAE)특성상 공급량이 적은 구간에서의 예측력이 점수에 더 큰 영향을 미침. 공급량이 적고 예측력이 떨어지는 구간을 변수로 추가하여 부정확한 예측을 보완함
+
+```yaml
+
+# 예측력이 떨어지는 기간 피쳐화 (3월말, 2~4시)
+for df in [train, test]:
+  df['little_gas'] = 0
+  df.loc[(df['month'] == 3) & (df['day'] >=29) & (df['hour'] >=2) & (df['hour'] <=4), 'little_gas'] = 1
+  df['26~31'] = df['day'].apply(lambda x : 1 if x >= 26 else 0)
+  df['2~7'] = df['hour'].apply(lambda x : 1 if x >= 2 and x <= 7 else 0)
+```
 
 
 ## Results on Competition Dataset
