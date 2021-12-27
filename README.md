@@ -80,36 +80,67 @@ for df in [train, test]:
 
 
 ### 최종모델 선정 : XGB, LGBM, Catboost
-시계열 모델 및 LSTM은 테스트 결과가 매우 좋지 않아 사용하지 않음. 테스트 결과가 가장 좋은 XGB, LGBM, Catboost를 최종모델로 선정
+시계열 모델 및 LSTM은 테스트 결과가 매우 좋지 않아 사용하지 않음. 테스트 결과가 가장 좋은 XGB, LGBM, Catboost를 최종모델로 선정. 그중 모델링 속도가 가장 빠른 LGBM을 Baseline 모델로 활용.
 
 트리모델의 경우 시계열 모델 처럼 데이터의 추세를 반영하기 어렵고, 과거 관측된 범위내에서 예측하는 단점이 있으나, 제공된 관측 데이터가 충분히 크고, 새로운 추세변화가 발생하기 어려울 것이라는 판단하에 트리모델만 적용함.
 
 3개 모델을 Ensembl 하여 예측값 도출
 
 
+## 모델 훈련
+사용 변수 최소화 및 Custom Tuning으로 일반화된 예측모델을 구현
+
+### 변수 제한
+사용하는 변수를 최소화하여 과적합 가능성이 낮은 일반화된(Generalized) 예측 모델을 구현
+
+```yaml
+vars = ['hour',	'type', 'month',	'weekday', 'little_gas', '26~31','2~7']
+X = train[vars]
+X_test = test[vars]
+```
+
+### Custom Metric
+대회 평가지표 'NMAE'를 각 모델별 Custom Metric으로 지정하여 모델 훈련
+```yaml
+def NMAE(y_pred, train_data):
+  y_true = train_data.get_label()
+  y_pred = np.expm1(y_pred)
+  y_true = np.expm1(y_true)
+  score = np.mean((np.abs(y_true-y_pred))/y_true)    
+  return 'nmae', score, False
+model = lgb.train(params, train_set=d_training, feval = NMAE)
+```
+
+### Hyperparameter Tuning
+Optuna, Grid Search 사용시 과적합되는 경향이 있어 학습 데이터의 공급량 예측값 시각화 결과를 확인하며 수동으로 조정
+이미지 삽입
+
+### Kfold
+Kfold는 3~24 까지 적용 후 모델별 최적 Fold수 선택(XGB-24, LGBM-6, Catboost-12) 
 
 
-## Results on Competition Dataset
-| Model | PubChem | PubChemQC | Competition LB (Public/Private) |
-|:-|:-:|:-:|:-:|
-| ELECTRA | 0.0493 | − | 0.1508/− |
-| BERT Regression | 0.0074 | 0.0497 | 0.1227/− |
-| MoT-Base (w/o PubChem) | − | 0.0188 | 0.0877/−|
-| MoT-Base (PubChemQC 150k) | **0.0086** | 0.0151 | 0.0666/− |
-| &nbsp;&nbsp;&nbsp;&nbsp;+ PubChemQC 300k | " | **0.0917** | 0.0526/− |
-| &nbsp;&nbsp;&nbsp;&nbsp;+ 5Fold CV | " | " | 0.0507/− |
-| &nbsp;&nbsp;&nbsp;&nbsp;+ Ensemble | " | " | 0.0503/− |
-| &nbsp;&nbsp;&nbsp;&nbsp;+ Increase Maximum Atoms | " | " | **0.0497/0.04931** |
+## 추론
+수요예측 비즈니스의 특성과 평가지표(NMAE)를 고려하여 과대추정 보다는 과소추정이 합리적이라고 판단함. NMAE 지표는 공급량이 적은 구간의 예측력이 중요. 과대추정 방지를 위해 최소값을 예측하는 Minimum Ensemble 적용
+이미지 삽입
 
-**Description**: Comparison results of various models. ELECTRA and BERT Regression are SMILES-based models which are trained with PubChem-100M (and PubChemQC-3M for BERT Regression only). ELECTRA is trained to distinguish fake SMILES tokens (i.e., ELECTRA approach) and BERT Regression is trained to predict the labels, without unsupervised learning. PubChemQC 150k and 300k denote that the model is trained for 150k and 300k steps in PubChemQC stage.
 
-## Utilities
-This repository provides some useful utility scripts.
+## 참고자료
 
-* `create_dataset_index.py`: As mentioned above, it creates seeking positions of samples in the dataset for random accessing.
-* `download_pubchem.py` and `download_pubchemqc.py`: Download PubChem3D and PubChemQC datasets.
-* `find_test_compound_cids.py`: Find CIDs of the compounds in test dataset to prevent from training the compounds. It may occur data-leakage. 
-* `simple_ensemble.py`: It performs simple ensemble by averaging all predictions from various models.
+### 논문
+- 도시가스 수요량 예측을 위한 시계열 모형 개발(2009) 최보승, 강현철, 이경윤, 한상태
+- 국내 도시가스의 시간대별 수요 예측(2016) 한정희, 이근철
+- 머신 러닝 방법과 시계열 분석 모형을 이용한 부동산 가격지수 예측(2018) 배상완, 유정석
+- 외재적 변수를 이용한 딥러닝 예측 기반의 도시가스 인수량 예측(2019) 김지현, 김지은, 박상준, 박운학
+- 함수 주성분 분석을 이용한 일별 도시가스 수요 예측(2020) 최용옥, 박혜성
+- 도시가스 일 최대수요 예측에 관한 연구(2020) 박철웅, 박철호
 
-## License
-This repository is released under the Apache License 2.0. License can be found in [LICENSE](LICENSE) file.
+### 데이터
+- 도시가스 월별 상대가격 지수 데이터 (출처 : 한국가스공사)
+- 기상 정보 데이터 (출처 : 기상자료개방포털)
+- 지역별 특수일 효과 (출처 : 한국가스공사)
+- 공휴일 데이터 (출처 : 한국천문연구원 특일정보 API)
+
+### 경진대회
+- 전력 사용량 예측 AI 경진대회(데이콘)
+- 태양광 발전량 예측 AI 경진대회(데이콘)
+
