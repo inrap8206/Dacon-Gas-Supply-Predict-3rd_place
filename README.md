@@ -32,14 +32,15 @@
 
 ### 데이터 기간 제한
 가스 공급량 예측을 위해 과거 6개년의 1-12월 데이터가 제공되었고, 미래의 1-3월을 예측해야 함. 데이터에는 이상치가 많이 다수 존재하였으나, IQR등 일괄적인 이상치 처리는 Domain 정보가 손실될 우려가 있음. 평가 데이터와 같은 기간(1~3월)의 데이터만 사용하여 불필요한 Noise를 제거하고 모델 학습 효율을 향상시킴 
-
 <p align="center">
     <img src="images/preprocessing1.jpg">
 </p>
 
 ### EDA를 통한 이상치 처리
 가스 공급량 이상치는 일시적 과대수요, 설비정비, Data 작성 오류 등 다양한 원인에 기인할 수 있음. IQR 등 일반적인 이상치 처리 방법 적용시 Domain 정보가 과도하게 손실될 우려가 있음. EDA 결과를 바탕으로 모델 학습에 방해가 되는 구간에 한하여 최소한의 이상치 처리를 실시
-
+<p align="center">
+    <img src="images/preprocessing2.jpg">
+</p>
 
 ```yaml
 
@@ -54,6 +55,9 @@ for row in train[train['amount'] > 6644].index:
 
 ### 예측 취약구간 보완
 학습데이터의 공급량 예측값과 실제 공급량의 차이를 비교한 결과 특정구간에서 예측력이 떨어짐을 확인. 평가지표(NMAE)특성상 공급량이 적은 구간에서의 예측력이 점수에 더 큰 영향을 미침. 공급량이 적고 예측력이 떨어지는 구간을 변수로 추가하여 부정확한 예측을 보완함
+<p align="center">
+    <img src="images/preprocessing3.jpg">
+</p>
 
 ```yaml
 
@@ -117,7 +121,9 @@ model = lgb.train(params, train_set=d_training, feval = NMAE)
 
 ### Hyperparameter Tuning
 Optuna, Grid Search 사용시 과적합되는 경향이 있어 학습 데이터의 공급량 예측값 시각화 결과를 확인하며 수동으로 조정
-이미지 삽입
+<p align="center">
+    <img src="images/modeling1.jpg">
+</p>
 
 ### Kfold
 Kfold는 3~24 까지 적용 후 모델별 최적 Fold수 선택(XGB-24, LGBM-6, Catboost-12) 
@@ -125,7 +131,9 @@ Kfold는 3~24 까지 적용 후 모델별 최적 Fold수 선택(XGB-24, LGBM-6, 
 
 ## 추론
 수요예측 비즈니스의 특성과 평가지표(NMAE)를 고려하여 과대추정 보다는 과소추정이 합리적이라고 판단함. NMAE 지표는 공급량이 적은 구간의 예측력이 중요. 과대추정 방지를 위해 최소값을 예측하는 Minimum Ensemble 적용
-이미지 삽입
+<p align="center">
+    <img src="images/modeling2.jpg">
+</p>
 
 
 ## 참고자료
